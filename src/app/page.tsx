@@ -28,7 +28,7 @@ export default function Home() {
   return (
     <div className="mt-[100px]">
       <div className="flex items-center justify-center">
-        {/*@ts-expect-error asdf */}
+        {/* @ts-expect-error asdf */}
         <HTMLFlipBook
           width={500}
           height={500}
@@ -54,7 +54,7 @@ export default function Home() {
         </HTMLFlipBook>
       </div>
       <div className="flex items-center justify-center mt-[100px]">
-        {/*@ts-expect-error asdf */}
+        {/* @ts-expect-error asdf */}
         <HTMLFlipBook
           width={500}
           height={700}
