@@ -10,12 +10,14 @@ const Page = forwardRef<HTMLDivElement, { image: string; page: number }>(
         ref={ref}
         className="bg-white items-center justify-center !flex"
       >
-        <Image
-          src={image}
-          width={500}
-          height={600}
-          alt={`Page ${page + 1}`}
-        />
+        {image && (
+          <Image
+            src={image}
+            width={500}
+            height={600}
+            alt={`Page ${page + 1}`}
+          />
+        )}
       </div>
     );
   }
@@ -26,25 +28,33 @@ export default function Home() {
   return (
     <div className="mt-[100px]">
       <div className="flex items-center justify-center">
-        {/*@ts-ignore */}
+        {/*@ts-expect-error asdf */}
         <HTMLFlipBook
           width={500}
           height={500}
           className="overflow-hidden"
         >
-          {Array.from({ length: 25 }, (_, i) => i + 1).map((image, index) => (
-            <Page
-              key={index}
-              image={`/book/3 братчета-${(index)
-                .toString()
-                .padStart(2, "0")}.png`}
-              page={index}
-            />
-          ))}
+          {Array.from({ length: 25 }, (_, i) => i).map((image, index) =>
+            index === 0 ? (
+              <Page
+                key={index}
+                image={""}
+                page={index}
+              />
+            ) : (
+              <Page
+                key={index}
+                image={`/book/3 братчета-${index
+                  .toString()
+                  .padStart(2, "0")}.png`}
+                page={index}
+              />
+            )
+          )}
         </HTMLFlipBook>
       </div>
       <div className="flex items-center justify-center mt-[100px]">
-        {/*@ts-ignore */}
+        {/*@ts-expect-error asdf */}
         <HTMLFlipBook
           width={500}
           height={700}
