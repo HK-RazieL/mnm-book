@@ -1,6 +1,6 @@
 "use client";
 import Image from "next/image";
-import { forwardRef, useEffect } from "react";
+import { forwardRef } from "react";
 import HTMLFlipBook from "react-pageflip";
 import { useMediaQuery } from "usehooks-ts";
 
