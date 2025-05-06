@@ -1,38 +1,50 @@
 "use client";
-import { forwardRef } from "react";
-import HTMLFlipBook from "react-pageflip";
 import Image from "next/image";
+import { forwardRef, useEffect } from "react";
+import HTMLFlipBook from "react-pageflip";
+import { useMediaQuery } from "usehooks-ts";
 
-const Page = forwardRef<HTMLDivElement, { image: string; page: number }>(
-  ({ image, page }, ref) => {
-    return (
-      <div
-        ref={ref}
-        className="bg-white items-center justify-center !flex"
-      >
-        {image && (
-          <Image
-            src={image}
-            width={500}
-            height={600}
-            alt={`Page ${page + 1}`}
-          />
-        )}
-      </div>
-    );
-  }
-);
+const Page = forwardRef<
+  HTMLDivElement,
+  { image: string; page: number; isMobile: boolean }
+>(({ image, page, isMobile }, ref) => {
+  return (
+    <div
+      ref={ref}
+      className={`bg-white items-center justify-center`}
+      style={{
+        willChange: "transform",
+        transform: "translateZ(0)",
+        backfaceVisibility: "hidden",
+        perspective: 1000,
+      }}
+    >
+      {image && (
+        <Image
+          src={image}
+          width={isMobile ? 250 : 500}
+          height={isMobile ? 250 : 600}
+          alt={`Page ${page + 1}`}
+          priority
+          style={{ objectFit: "contain" }}
+        />
+      )}
+    </div>
+  );
+});
 Page.displayName = "Page"; // Required for forwardRef
 
 export default function Home() {
+  const isMobile = useMediaQuery("(max-width: 440px)");
   return (
     <div className="mt-[100px]">
-      <div className="flex items-center justify-center">
+      <div>
         {/* @ts-expect-error asdf */}
         <HTMLFlipBook
-          width={500}
-          height={500}
-          className="overflow-hidden"
+          width={isMobile ? 250 : 500}
+          height={isMobile ? 250 : 500}
+          size="fixed"
+          className="mx-auto"
         >
           {Array.from({ length: 25 }, (_, i) => i).map((image, index) =>
             index === 0 ? (
@@ -40,34 +52,19 @@ export default function Home() {
                 key={index}
                 image={""}
                 page={index}
+                isMobile={isMobile}
               />
             ) : (
               <Page
                 key={index}
-                image={`/book/3 братчета-${index
-                  .toString()
-                  .padStart(2, "0")}.png`}
+                image={`/book/3 братчета-${index.toString().padStart(2, "0")}${
+                  isMobile ? "-small" : ""
+                }.png`}
                 page={index}
+                isMobile={isMobile}
               />
             )
           )}
-        </HTMLFlipBook>
-      </div>
-      <div className="flex items-center justify-center mt-[100px]">
-        {/* @ts-expect-error asdf */}
-        <HTMLFlipBook
-          width={500}
-          height={700}
-          autoSize
-          className="overflow-hidden"
-        >
-          {Array.from({ length: 4 }, (_, i) => i + 1).map((image, index) => (
-            <Page
-              key={index}
-              image={`/book2/${index}.jpg`}
-              page={index}
-            />
-          ))}
         </HTMLFlipBook>
       </div>
     </div>
