@@ -46,7 +46,7 @@ function NavBarButton({
         active === label ? "border-[green]" : "border-[white]"
       } hover:border-b-[1px] hover:border-[green] outline-white cursor-pointer w-[150px]`}
       onClick={() => {
-        router.push(link);
+        router.push("/" + link);
         setActive(label);
       }}
     >
